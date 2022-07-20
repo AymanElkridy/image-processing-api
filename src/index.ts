@@ -1,7 +1,7 @@
 // IMPORTING DEPENDENCIES
 
 import express from 'express';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import sharp from 'sharp';
 
 // CREATING APP INSTANCE
@@ -19,7 +19,7 @@ const thumbDir = './src/images/thumbnails/';
 
 // IMAGE RESIZING GET REQUEST
 
-app.get(imageEndPoint,(req, res) => {
+app.get(imageEndPoint, async (req, res) => {
   
   // Declaring variables
   let filename:string = '', width:number = 0, height:number = 0;
@@ -55,25 +55,21 @@ app.get(imageEndPoint,(req, res) => {
 
   // Checking if parameters are correct
   if (filename && width && height) {
-    // Checking if image is previously resized
-    fs.readFile(`${thumbDir}${filename}-${width}-${height}.jpg`,(err, img) => {
-      if (err) { // Get the original image
-        fs.readFile(`${imageDir}${filename}.jpg`, (err, img) => {
-          if (err) { // File name doesn't match existing images
-            res.send('Error: No image found');
-          }
-          // Resizing image and saving it on file system
-          sharp(img)
-          .resize(Number(width), Number(height))
-          .toFile(`${thumbDir}${filename}-${width}-${height}.jpg`)
-          .then(info => {
-            console.log(res);
-          });
-        });
+    let thumbPath = `${thumbDir}${filename}-${width}-${height}.jpg`;
+    try { // Checking if image is resized before
+      const thumb = await fs.readFile(thumbPath);
+      res.end(thumb);
+    } catch {
+      try { // Resizing image, saving it, then rendering it
+        const img = await fs.readFile(`${imageDir}${filename}.jpg`);
+        await sharp(img).resize(Number(width), Number(height)).toFile(thumbPath);
+        const thumb = await fs.readFile(thumbPath);
+        res.end(thumb);
+      } catch (err) { // Catching processing file error
+        console.error(err);
+        res.status(400).end('Error: Failed to process file');
       }
-      // Displaying the image if previously resized
-      res.end(img);
-    });
+    }
   }
 });
 
