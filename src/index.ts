@@ -1,58 +1,82 @@
+// IMPORTING DEPENDENCIES
+
 import express from 'express';
 import fs from 'fs';
 import sharp from 'sharp';
 
+// CREATING APP INSTANCE
+
 const app = express();
+const port:number = 3002;
+const listener = ():void => {console.log(`server running on port: ${port}`);}
 
-app.get('/', (req, res) => {
-  res.send('this worked!');
-});
+// GLOBAL CONSTANTS
 
+const baseURL = `localhost:${port}`;
+const imageEndPoint = '/image';
 const imageDir = './src/images/';
 const thumbDir = './src/images/thumbnails/';
 
-app.get('/image',(req, res) => {
-  const parameters = req.url.substring(7).split('&');
-  if (!parameters[0]) res.send('Error: Nothing is specified')
+// IMAGE RESIZING GET REQUEST
+
+app.get(imageEndPoint,(req, res) => {
+  
+  // Declaring variables
   let filename:string = '', width:number = 0, height:number = 0;
-  !parameters[0] || parameters[0].split('=')[0] !== 'filename' ?
-  res.send('Error: filename is not specified') :
-  filename = parameters[0].split('=')[1];
-  !parameters[1] || parameters[1].split('=')[0] !== 'width' ?
-  res.send('Error: width is not specified') :
-  width = (parameters[1].split('=')[1] as unknown) as number;
-  !parameters[2] || parameters[2].split('=')[0] !== 'height' ?
-  res.send('Error: height is not specified') :
-  height = (parameters[2].split('=')[1] as unknown) as number;
-  fs.readFile(`${thumbDir}${filename}-${width}-${height}.jpg`,(err, img) => {
-    if (err) {
-      fs.readFile(`${imageDir}${filename}.jpg`, (err, img) => {
-        if (err) {
-          res.send('Error: No image found');
-        }
-        sharp(img)
-        .resize(Number(width), Number(height))
-        .toFile(`${thumbDir}${filename}-${width}-${height}.jpg`)
-        .then(info => {
-          fs.readFile(`${thumbDir}${filename}-${width}-${height}.jpg`, (err, img) => {
-            if (err) throw err;
-            res.end(img);
+
+  // Getting filename
+  if (!req.query.filename) {
+    res.send('Error: filename is not specified');
+  } else {
+    filename = (req.query.filename as unknown) as string;
+
+    // Getting width
+    if (!req.query.width) {
+      res.send('Error: width is not specified');
+    } else if (isNaN(Number(req.query.width))) {
+      res.send('Error: width must be a number');
+    } else if (Number(req.query.width) === 0) {
+      res.send('Error: width must be greater than 0');
+    } else {
+      width = (req.query.width as unknown) as number;
+
+      // Getting height
+      if (!req.query.height) {
+        res.send('Error: height is not specified');
+      } else if (isNaN(Number(req.query.height))) {
+        res.send('Error: height must be a number');
+      } else if (Number(req.query.height) === 0) {
+        res.send('Error: height must be greater than 0');
+      } else {
+        height = (req.query.height as unknown) as number;
+      }
+    }
+  }
+
+  // Checking if parameters are correct
+  if (filename && width && height) {
+    // Checking if image is previously resized
+    fs.readFile(`${thumbDir}${filename}-${width}-${height}.jpg`,(err, img) => {
+      if (err) { // Get the original image
+        fs.readFile(`${imageDir}${filename}.jpg`, (err, img) => {
+          if (err) { // File name doesn't match existing images
+            res.send('Error: No image found');
+          }
+          // Resizing image and saving it on file system
+          sharp(img)
+          .resize(Number(width), Number(height))
+          .toFile(`${thumbDir}${filename}-${width}-${height}.jpg`)
+          .then(info => {
+            console.log(res);
           });
         });
-      });
-    }
-    res.end(img);
-  });
+      }
+      // Displaying the image if previously resized
+      res.end(img);
+    });
+  }
 });
 
+// START THE SERVER
 
-app.get('/try', (req, res) => {
-  fs.readFile(`${imageDir}santamonica.jpg`, (err, img) => {
-    if (err) throw err;
-    res.end(img);
-  });
-});
-
-const port:number = 3002;
-const listener = ():void => {console.log(`server running on port: ${port}`);}
 app.listen(port, listener);
