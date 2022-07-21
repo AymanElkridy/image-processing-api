@@ -59,9 +59,9 @@ app.get(imageEndPoint, async (req, res) => {
       const thumb = await fs.readFile(thumbPath);
       res.status(200).end(thumb);
     } catch {
-      try { // Resizing image, saving it, then rendering it
+      try { // Grabbing original image
         const img = await fs.readFile(`${imageDir}${filename}.jpg`);
-        try {
+        try { // Resizing image, saving it, then rendering it
           await sharp(img).resize(Number(width), Number(height)).toFile(thumbPath);
           const thumb = await fs.readFile(thumbPath);
           res.status(200).end(thumb);
