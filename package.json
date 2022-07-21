@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "lint": "npx eslint ./src/index.ts",
+    "pretty":"npx prettier -w ./**/*.ts",
     "build": "npx tsc",
     "srcstart": "nodemon ./src/index.ts --watch",
     "buildstart": "nodemon ./build/index.js --watch",
