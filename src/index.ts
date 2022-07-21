@@ -14,8 +14,8 @@ const listener = ():void => {console.log(`server running on port: ${port}`);}
 
 const baseURL:string = `localhost:${port}`;
 const imageEndPoint:string = '/image';
-const imageDir:string = './src/images/';
-const thumbDir:string = './src/images/thumbnails/';
+const imageDir:string = './assets/images/';
+const thumbDir:string = './assets/images/thumbnails/';
 
 // IMAGE RESIZING GET REQUEST
 
