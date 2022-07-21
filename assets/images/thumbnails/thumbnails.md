@@ -1,1 +1,1 @@
-# This is the outpug directory for resized images (thumbnails).
+# This is the output directory for resized images (thumbnails).
