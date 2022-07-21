@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
+    "lint": "npx eslint ./src/index.ts",
     "build": "npx tsc",
     "srcstart": "nodemon ./src/index.ts --watch",
-    "buildstart":"nodemon ./build/index.js --watch",
-    "start":"npm run build && npm run buildstart",
+    "buildstart": "nodemon ./build/index.js --watch",
+    "start": "npm run build && npm run buildstart",
     "jasmine": "jasmine",
     "test": "npm run build && npm run jasmine",
     "git": "git add . && git commit -m \"quick commit\" && git push origin main"
@@ -20,9 +21,14 @@
     "@types/node": "^18.0.5",
     "@types/sharp": "^0.30.4",
     "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
     "jasmine": "^4.2.1",
     "jasmine-spec-reporter": "^7.0.0",
     "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
     "supertest": "^6.2.4",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"

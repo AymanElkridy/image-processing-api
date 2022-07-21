@@ -7,22 +7,21 @@ import sharp from 'sharp';
 // CREATING APP INSTANCE
 
 const app = express();
-const port:number = 3002;
-const listener = ():void => {console.log(`server running on port: ${port}`);}
+const port = 3002;
+const listener = ():void => {console.log(`server running on port: ${port}`);};
 
 // GLOBAL CONSTANTS
 
-const baseURL:string = `localhost:${port}`;
-const imageEndPoint:string = '/image';
-const imageDir:string = './assets/images/';
-const thumbDir:string = './assets/images/thumbnails/';
+const imageEndPoint = '/image';
+const imageDir = './assets/images/';
+const thumbDir = './assets/images/thumbnails/';
 
 // IMAGE RESIZING GET REQUEST
 
 app.get(imageEndPoint, async (req, res) => {
   
   // Declaring variables
-  let filename:string = '', width:number = 0, height:number = 0;
+  let filename = '', width = 0, height = 0;
 
   // Getting filename
   if (!req.query.filename) {
@@ -55,7 +54,7 @@ app.get(imageEndPoint, async (req, res) => {
 
   // Checking if parameters are correct
   if (filename && width && height) {
-    let thumbPath = `${thumbDir}${filename}-${width}-${height}.jpg`;
+    const thumbPath = `${thumbDir}${filename}-${width}-${height}.jpg`;
     try { // Checking if image is resized before
       const thumb = await fs.readFile(thumbPath);
       res.status(200).end(thumb);
