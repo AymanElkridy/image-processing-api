@@ -62,12 +62,18 @@ app.get(imageEndPoint, async (req, res) => {
     } catch {
       try { // Resizing image, saving it, then rendering it
         const img = await fs.readFile(`${imageDir}${filename}.jpg`);
-        await sharp(img).resize(Number(width), Number(height)).toFile(thumbPath);
-        const thumb = await fs.readFile(thumbPath);
-        res.status(200).end(thumb);
-      } catch (err) { // Catching processing file error
-        console.error(err);
-        res.status(400).end('Error: Failed to process file');
+        try {
+          await sharp(img).resize(Number(width), Number(height)).toFile(thumbPath);
+          const thumb = await fs.readFile(thumbPath);
+          res.status(200).end(thumb);
+        } catch (err) { // Catching processing file error
+          console.error(err);
+          res.status(400).end('Error: Failed to process file');
+        }
+      } catch {
+        res.status(400).end(`Error: Could not find image.
+       Make sure that the file name is spelled correctly
+       and that the image exists in /images directory.`);
       }
     }
   }
