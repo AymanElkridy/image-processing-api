@@ -8,7 +8,7 @@ This is an API that takes an image file name and desired width and height, then 
 2. Start the server.
 3. Submit a GET request through the URL in the following format:<br>
    `http://localhost:<port-is-3002>image?filename=<the-image-file-name-without-.jpg>&width=<desired-width>&height=<desired-height>`
-4. Find the resized image in the [thumbnails](assets/thumbnails/) directory.
+4. Find the resized image in the [thumbnails](assets/images/thumbnails/) directory.
 
 ## Scripts:
 - **srcstart:** Runs the server from ./src directory.
