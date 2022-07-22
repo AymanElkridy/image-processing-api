@@ -8,7 +8,9 @@ import sharp from 'sharp';
 
 const app = express();
 const port = 3002;
-const listener = ():void => {console.log(`server running on port: ${port}`);};
+const listener = (): void => {
+  console.log(`server running on port: ${port}`);
+};
 
 // GLOBAL CONSTANTS
 
@@ -19,20 +21,27 @@ const thumbDir = './assets/images/thumbnails/';
 // GLOBAL VARIABLES
 
 let filename = '',
-    width = 0,
-    height = 0;
+  width = 0,
+  height = 0;
 
 // MIDDLEWARE : GETTING DATA FROM QUERY
 
-const getFromQuery = (req:express.Request, res:express.Response, next:() => void):void => {
-
+const getFromQuery = (
+  req: express.Request,
+  res: express.Response,
+  next: () => void
+): void => {
   // Getting filename
   if (!req.query.filename) {
     res.status(400).end('Error: filename is not specified');
   } else if (/[\/\\:"<>\*\?|]/.test(String(req.query.filename))) {
-    res.status(400).end('Error: filename can\'t have any of the following symbols  \\\/:\*\?"<>|.');
+    res
+      .status(400)
+      .end(
+        'Error: filename can\'t have any of the following symbols  \\/:*?"<>|.'
+      );
   } else {
-    filename = (req.query.filename as unknown) as string;
+    filename = req.query.filename as unknown as string;
 
     // Getting width
     if (!req.query.width) {
@@ -42,7 +51,7 @@ const getFromQuery = (req:express.Request, res:express.Response, next:() => void
     } else if (Number(req.query.width) <= 0) {
       res.status(400).end('Error: width must be greater than 0');
     } else {
-      width = (req.query.width as unknown) as number;
+      width = req.query.width as unknown as number;
 
       // Getting height
       if (!req.query.height) {
@@ -52,31 +61,36 @@ const getFromQuery = (req:express.Request, res:express.Response, next:() => void
       } else if (Number(req.query.height) <= 0) {
         res.status(400).end('Error: height must be greater than 0');
       } else {
-        height = (req.query.height as unknown) as number;
+        height = req.query.height as unknown as number;
       }
     }
   }
   next();
-}
+};
 
 // IMAGE RESIZING GET REQUEST
 
-app.get(imageEndPoint, getFromQuery, async (req, res) => { 
-
+app.get(imageEndPoint, getFromQuery, async (req, res) => {
   // Checking if parameters are correct
   if (filename && width && height) {
     const thumbPath = `${thumbDir}${filename}-${width}-${height}.jpg`;
-    try { // Checking if image is resized before
+    try {
+      // Checking if image is resized before
       const thumb = await fs.readFile(thumbPath);
       res.status(200).end(thumb);
     } catch {
-      try { // Grabbing original image
+      try {
+        // Grabbing original image
         const img = await fs.readFile(`${imageDir}${filename}.jpg`);
-        try { // Resizing image, saving it, then rendering it
-          await sharp(img).resize(Number(width), Number(height)).toFile(thumbPath);
+        try {
+          // Resizing image, saving it, then rendering it
+          await sharp(img)
+            .resize(Number(width), Number(height))
+            .toFile(thumbPath);
           const thumb = await fs.readFile(thumbPath);
           res.status(200).end(thumb);
-        } catch (err) { // Catching processing file error
+        } catch (err) {
+          // Catching processing file error
           console.error(err);
           res.status(400).end('Error: Failed to process file');
         }
@@ -95,4 +109,4 @@ app.listen(port, listener);
 
 // EXPORTS
 
-export {getFromQuery, app};
+export { app };
