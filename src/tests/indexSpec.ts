@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import { app, getFromQuery } from '../index';
+import { app } from '../index';
 
 const request = supertest(app);
 describe('Test endpoint responses', () => {
