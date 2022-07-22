@@ -11,12 +11,12 @@ This is an API that takes an image file name and desired width and height, then 
 4. Find the resized image in the [thumbnails](assets/images/thumbnails/) directory.
 
 ## Scripts:
-- **srcstart:** Runs the server from ./src directory.
-- **build:** Transpiles TypeScript to JavaScript in the ./build directory.
-- **buildstart:** Runs the server form the ./build directory.
-- **start:** Both transpiles and runs the server from the ./build directory. ---- ***important***
-- **jasmine:** Runs Jasmine unit test on ./build/index.js (use after building).
-- **test:** Both transpiles and runs Jasmine unit test on ./build/index.js. ---- ***important***
+- **srcstart:** ---> Runs the server from ./src directory.
+- **build:** ------> Transpiles TypeScript to JavaScript in the ./build directory.
+- **buildstart:** -> Runs the server form the ./build directory.
+- **start:** ------> Both transpiles and runs the server from the ./build directory. ---- ***important***
+- **jasmine:** ----> Runs Jasmine unit test on ./build/index.js (use after building).
+- **test:** -------> Both transpiles and runs Jasmine unit test on ./build/index.js. ---- ***important***
 
 ## Used Dependecies:
 1. Development
