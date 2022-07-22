@@ -1,13 +1,13 @@
 # Image Processing API
 
 ## Description:
-This is an API that takes an image file name and desired width and height, then resizes the image and outputs the resized image in a , saving it using its original name concatenated to `-${width}-${height}.jpg`.
+This is an API that takes an image file name and desired width and height, then resizes the image and outputs the resized image in a , saving it using its original name concatenated to `-<width>-<height>.jpg`.
 
 ## How To Use:
 1. Add a JPEG image to the [images](assets/images/) directory.
 2. Start the server.
 3. Submit a GET request through the URL in the following format:<br>
-   `http://localhost:< port is 3002 >image?filename=< the image file name without .jpg >&width=< desired width >&height=< desired height >`
+   `http://localhost:<port-is-3002>image?filename=<the-image-file-name-without-.jpg>&width=<desired-width>&height=<desired-height>`
 4. Find the resized image in the [thumbnails](assets/thumbnails/) directory.
 
 ## Scripts:
