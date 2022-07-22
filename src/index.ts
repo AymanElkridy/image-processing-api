@@ -16,12 +16,15 @@ const imageEndPoint = '/image';
 const imageDir = './assets/images/';
 const thumbDir = './assets/images/thumbnails/';
 
-// IMAGE RESIZING GET REQUEST
+// GLOBAL VARIABLES
 
-app.get(imageEndPoint, async (req, res) => {
-  
-  // Declaring variables
-  let filename = '', width = 0, height = 0;
+let filename = '',
+    width = 0,
+    height = 0;
+
+// MIDDLEWARE : GETTING DATA FROM QUERY
+
+const getFromQuery = (req:express.Request, res:express.Response, next:() => void):void => {
 
   // Getting filename
   if (!req.query.filename) {
@@ -36,7 +39,7 @@ app.get(imageEndPoint, async (req, res) => {
       res.status(400).end('Error: width is not specified');
     } else if (isNaN(Number(req.query.width))) {
       res.status(400).end('Error: width must be a number');
-    } else if (Number(req.query.width) === 0) {
+    } else if (Number(req.query.width) <= 0) {
       res.status(400).end('Error: width must be greater than 0');
     } else {
       width = (req.query.width as unknown) as number;
@@ -46,13 +49,19 @@ app.get(imageEndPoint, async (req, res) => {
         res.status(400).end('Error: height is not specified');
       } else if (isNaN(Number(req.query.height))) {
         res.status(400).end('Error: height must be a number');
-      } else if (Number(req.query.height) === 0) {
+      } else if (Number(req.query.height) <= 0) {
         res.status(400).end('Error: height must be greater than 0');
       } else {
         height = (req.query.height as unknown) as number;
       }
     }
   }
+  next();
+}
+
+// IMAGE RESIZING GET REQUEST
+
+app.get(imageEndPoint, getFromQuery, async (req, res) => { 
 
   // Checking if parameters are correct
   if (filename && width && height) {
@@ -83,3 +92,7 @@ app.get(imageEndPoint, async (req, res) => {
 // START THE SERVER
 
 app.listen(port, listener);
+
+// EXPORTS
+
+export {getFromQuery, app};
