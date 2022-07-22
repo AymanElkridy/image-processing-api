@@ -1,7 +1,7 @@
 # Image Processing API
 
 ## Description:
-This is an API that takes an image file name and desired width and height, then resizes the image and outputs the resized image in a , saving it using its original name concatenated to `-<width>-<height>.jpg`.
+This is an API that takes an image file name and desired width and height, then resizes the image and outputs the resized image on file system, saving it using its original name concatenated to `-<width>-<height>.jpg`.
 
 ## How To Use:
 1. Add a JPEG image to the [images](assets/images/) directory.
