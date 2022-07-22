@@ -34,4 +34,4 @@ This is an API that takes an image file name and desired width and height, then 
 
 ## Credits:
 This project was done from scratch by Ayman Abdelwahed (AymanElkridy), only externally depending on libraries, documentations & developers community help, for the purpose of submitting as the first project in Udacity's Advanced Full-Stack Web Development Scholarship.
-All the material in this project is subject to open-source policy, available and free to use for and by anyone, crediting is not asked or expected, even though it is much appreciated.
+All the material in this project is subject to open-source policy, available and free to use for and by anyone. Crediting is not asked or expected, even though it is much appreciated.
