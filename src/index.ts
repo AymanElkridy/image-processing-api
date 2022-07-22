@@ -26,6 +26,8 @@ app.get(imageEndPoint, async (req, res) => {
   // Getting filename
   if (!req.query.filename) {
     res.status(400).end('Error: filename is not specified');
+  } else if (/[\/\\:"<>\*\?|]/.test(String(req.query.filename))) {
+    res.status(400).end('Error: filename can\'t have any of the following symbols  \\\/:\*\?"<>|.');
   } else {
     filename = (req.query.filename as unknown) as string;
 
@@ -72,7 +74,7 @@ app.get(imageEndPoint, async (req, res) => {
       } catch {
         res.status(400).end(`Error: Could not find image.
        Make sure that the file name is spelled correctly
-       and that the image exists in /images directory.`);
+       and that the image exists in the images directory.`);
       }
     }
   }
