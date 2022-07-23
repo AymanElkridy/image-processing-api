@@ -25,13 +25,19 @@ This is an API that takes an image file name and desired width and height, then 
    - nodemon
    - prettier
    - supertest
+<<<<<<< HEAD
    - ts-node
+=======
+>>>>>>> eca5b9da97dac91f180581c714561ea107e0ec14
    - typescript
    - @types and @typescript libraries
 2. Production
    - express
    - fs
+<<<<<<< HEAD
    - qs
+=======
+>>>>>>> eca5b9da97dac91f180581c714561ea107e0ec14
    - sharp
 
 ## Credits:
