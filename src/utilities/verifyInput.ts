@@ -1,3 +1,4 @@
+// Importing Dependency to Deal with Parsed Query String
 import { ParsedQs } from 'qs';
 
 // This is a function that takes the Query of Express.Request
@@ -5,8 +6,8 @@ import { ParsedQs } from 'qs';
 // 1. An array following the format [filename, width, height]
 //    in case the given parameters were correct [string, number, number]
 //
-// 2. An array following the format [errorCode, errorMessage]
-//    in case of any errors that doesn't allow for first case [number, string]
+// 2. An array following the format [errorCode, errorMessage, ...]
+//    in case of any errors that doesn't allow for first case [number, string, ...]
 
 const verifyInput = (query: ParsedQs): (string | number)[] => {
   // An array to return with results

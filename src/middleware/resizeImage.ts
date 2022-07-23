@@ -1,10 +1,16 @@
+// IMPORTING DEPENDENCIES AND UTILITIES
+
 import express from 'express';
 import { promises as fs } from 'fs';
 import sharp from 'sharp';
 import verifyInput from '../utilities/verifyInput';
 
+// GLOBAL CONSTANTS
+
 const imageDir = './assets/images/';
 const thumbDir = './assets/images/thumbnails/';
+
+// MAIN FUNCTION
 
 const resizeImage = async (
   req: express.Request,
@@ -38,15 +44,19 @@ const resizeImage = async (
           res.status(400).end('Error: Failed to process file');
         }
       } catch {
+        // Catching image name error
         res.status(400).end(`Error: Could not find image.
        Make sure that the file name is spelled correctly
        and that the image exists in the images directory.`);
       }
     }
   } else {
+    // Handling wrong query parameters (wrong input)
     res.status(params[0] as number).end(params[1] as string);
   }
+  // Ending middleware
   next();
 };
 
+export { imageDir, thumbDir };
 export default resizeImage;

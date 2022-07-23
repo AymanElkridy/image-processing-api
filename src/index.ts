@@ -1,4 +1,4 @@
-// IMPORTING DEPENDENCIES
+// IMPORTING EXPRESS AND MIDDLEWARE
 
 import express from 'express';
 import resizeImage from './middleware/resizeImage';
