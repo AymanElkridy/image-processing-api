@@ -29,7 +29,7 @@ describe('Test image resizing', () => {
     const image = await fs.readFile(`${imageDir}sample.jpg`);
     const resized = await sharp(image)
       .resize(600, 338)
-      .toFile(`${thumbDir}test.jpg`);
+      .toFile(`${thumbDir}sample-600-338.jpg`);
     expect(resized.width).toBe(600);
     expect(resized.height).toBe(338);
   });
