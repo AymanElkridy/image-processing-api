@@ -27,7 +27,9 @@ describe('Test endpoint responses', () => {
 describe('Test image resizing', () => {
   it('returns an image with the desired dimensions', async () => {
     const image = await fs.readFile(`${imageDir}sample.jpg`);
-    const resized = await sharp(image).resize(600,338).toFile(`${thumbDir}test.jpg`);
+    const resized = await sharp(image)
+      .resize(600, 338)
+      .toFile(`${thumbDir}test.jpg`);
     expect(resized.width).toBe(600);
     expect(resized.height).toBe(338);
   });
